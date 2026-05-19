@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>❤️ I LOVE U ❤️</title>
+  <style>
+    /* Page setup */
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffe6e6;
+      height: 100vh;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+    }
+
+    .container {
+      position: relative;
+      text-align: center;
+      z-index: 1;
+    }
+
+    /* Main message */
+    .message {
+      font-size: 4.5em;
+      color: #e60000;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: fadeIn 2s ease-in-out forwards 1s;
+      white-space: nowrap;
+    }
+
+    .input-panel {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      opacity: 1;
+      animation: fadeIn 1.5s ease-in-out forwards 0.5s;
+    }
+
+    .input-panel input {
+      padding: 0.75rem 1rem;
+      border: 2px solid #e60000;
+      border-radius: 999px;
+      font-size: 1rem;
+      outline: none;
+      width: 220px;
+      max-width: 100%;
+    }
+
+    .input-panel button {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 999px;
+      font-size: 1rem;
+      background: #e60000;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .input-panel button:hover {
+      background: #bf0000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Heart shape */
+    .heart {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: red;
+      transform: rotate(45deg);
+      animation: floatUp 4s ease-in infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -6px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 6px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(45deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(30px, -100vh) rotate(45deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="message hidden" id="message">I LOVE U</div>
+    <div class="input-panel" id="inputPanel">
+      <input id="nameInput" type="text" placeholder="Her name" autocomplete="off" />
+      <button id="showBtn">Show message</button>
+    </div>
+  </div>
+
+  <script>
+    const message = document.getElementById("message");
+    const inputPanel = document.getElementById("inputPanel");
+    const nameInput = document.getElementById("nameInput");
+    const showBtn = document.getElementById("showBtn");
+
+    function setMessage(name) {
+      const safeName = name.trim();
+      if (!safeName) {
+        message.textContent = "I LOVE U";
+      } else {
+        message.textContent = `${safeName} I LOVE U`;
+      }
+      message.classList.remove("hidden");
+      inputPanel.classList.add("hidden");
+    }
+
+    showBtn.addEventListener("click", () => {
+      setMessage(nameInput.value);
+    });
+
+    nameInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        setMessage(nameInput.value);
+      }
+    });
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }
+
+    setInterval(createHeart, 500);
+
+    const params = new URLSearchParams(window.location.search);
+    const sharedName = params.get("name");
+    if (sharedName && sharedName.trim()) {
+      setMessage(sharedName);
+    }
+  </script>
+</body>
+</html>
